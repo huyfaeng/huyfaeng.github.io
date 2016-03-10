@@ -1,6 +1,7 @@
-title:            Scribble
-description:      A jekyll theme. Because I scribble.
+title:            Lokihuang
+description:      I Know nothing
 url:              huyfaeng.github.io 
+baseurl:          /huyfaeng.github.io
 signoff:          huyfaeng 
 disqus_shortname: # disqus comment thread for post header options. ( leave blank if unwanted. )
 facebook_appid:   # appid for like button, remove from /_includes/share.html if unwanted.
@@ -13,7 +14,7 @@ links:
     url:          http://muan.co
     external:     true
   - name:         GitHub
-    url:          http://github.com/muan
+    url:          http://github.com/huyfaeng
     external:     true
 highlighter:      pygments
 permalink:        pretty
