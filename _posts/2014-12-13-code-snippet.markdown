@@ -8,7 +8,7 @@ date:   2014-12-13
 
 Jekyll also offers powerful support for code snippets:
 
-{% highlight ruby lineno %}
+{% highlight ruby linenos %}
 def print_hi(name)
   puts "Hi, #{name}"
 end
