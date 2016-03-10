@@ -1,18 +1,21 @@
 title:            Lokihuang
 description:      I Know nothing
 url:              huyfaeng.github.io 
-baseurl:          /huyfaeng.github.io
+baseurl:          /huyfaeng.github.io 
 signoff:          huyfaeng 
-disqus_shortname: # disqus comment thread for post header options. ( leave blank if unwanted. )
+disqus_shortname: loki
 facebook_appid:   # appid for like button, remove from /_includes/share.html if unwanted.
 google_analytics: # set tracking, remove from /javascripts/basic.js if unwanted.
 
 links:
+  - name:         Home
+    url:          /about
+  - name:         Cat1
+    url:          /about
+  - name:         Cat2
+    url:          /about
   - name:         About
     url:          /about
-  - name:         Blog
-    url:          http://muan.co
-    external:     true
   - name:         GitHub
     url:          http://github.com/huyfaeng
     external:     true
