@@ -1,27 +1,28 @@
-title:            Lokihuang
-description:      I Know nothing
-url:              huyfaeng.github.io 
-baseurl:          /huyfaeng.github.io 
-signoff:          huyfaeng 
-disqus_shortname: loki
-facebook_appid:   # appid for like button, remove from /_includes/share.html if unwanted.
-google_analytics: # set tracking, remove from /javascripts/basic.js if unwanted.
+title: Long Haul
+description: Long Form Jekyll theme built with SASS / COMPASS / SUSY
 
-links:
-  - name:         Home
-    url:          /about
-  - name:         Cat1
-    url:          /about
-  - name:         Cat2
-    url:          /about
-  - name:         About
-    url:          /about
-  - name:         GitHub
-    url:          http://github.com/huyfaeng
-    external:     true
-highlighter:      pygments
-permalink:        pretty
-markdown:         redcarpet
-redcarpet:
-  extensions:
-    - smart
+url: http://huyfaeng.github.io
+baseurl: ""
+paginate_path: "blog/page:num/"
+permalink: blog/:title/
+
+markdown: kramdown
+highlighter: rouge
+gems: [jekyll-paginate]
+paginate: 5
+
+navigation:
+ - title: Home
+   url: /index.html
+ - title: About
+   url: /about
+ - title: Contact
+   url: /contact
+
+social:
+   github: brianmaierjr
+   twitter: brianmaierjr
+   facebook: brianmaierjr
+   email: brimaidesigns@gmail.com
+
+google_analytics: "UA-58263416-1"
