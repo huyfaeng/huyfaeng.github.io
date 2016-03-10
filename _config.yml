@@ -16,10 +16,12 @@ navigation:
    url: /index.html
  - title: Cat1
    url:  
- - title: About
-   url: /about
+ - title: Cat2
+   url:  
  - title: Contact
    url: /contact
+ - title: About
+   url: /about
 
 social:
    github: huyfaeng
