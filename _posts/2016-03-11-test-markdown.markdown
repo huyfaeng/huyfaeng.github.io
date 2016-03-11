@@ -5,6 +5,10 @@ date:   2016-03-11
 categories: Cat1
 ---
 
-#learn markdown
+# learn markdown
 
+## why1
+
+
+### why2
 find releation of markdown and jekyll.
