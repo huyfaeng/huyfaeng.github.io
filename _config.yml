@@ -11,6 +11,13 @@ highlighter: rouge
 gems: [jekyll-paginate]
 paginate: 5
 
+kramdown:
+  input: GFM
+  hard_wrap: false
+gems:
+  - jekyll-coffeescript
+  - jekyll-paginate
+
 navigation:
  - title: Home
    url: /index.html
