@@ -29,6 +29,7 @@ int main(int argc, char** argv)
 | Close     | _Closes_ a window     |
 
 ### thisis also ok
+
 | col1 | col2 | col3 |
 | ------ | ------ | ------ |
 | r1 | r2 | r3 |
