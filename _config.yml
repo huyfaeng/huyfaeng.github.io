@@ -15,9 +15,9 @@ navigation:
  - title: Home
    url: /index.html
  - title: Cat1
-   url:  cat1.html
+   url:  /cat1.html
  - title: Cat2
-   url:  cat2.html
+   url:  /cat2.html
  - title: Contact
    url: /contact
  - title: About
