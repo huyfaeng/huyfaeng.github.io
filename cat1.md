@@ -3,25 +3,7 @@ layout: default
 title: Welcome to Cat1
 ---
 
-<!--
-<div class="home" id="home">
-<div class="posts">
-  {% for post in site.posts %}
-
-    {% assign author = site.authors[post.author] %}
-    {{ author.display_name }}
-
-  {% if post.category == 'Cat1' %}
-  <div class="post">
-    <h1 class="post-title">
-      <a href="{{ post.url }}">{{ post.title }}</a>
-    </h1>
-    {{ post.content }}
-  </div>
-  {% endif %}
-  {% endfor %}
-</div>
- -->
+<div>
  <h1 class="pageTitle">Recent Posts</h1>
   <ul class="posts noList">
     {% for post in paginator.posts %}
