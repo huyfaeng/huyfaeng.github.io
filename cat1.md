@@ -2,6 +2,7 @@
 layout: default
 title: Welcome to Cat1
 ---
+
 <!--
 <div class="home" id="home">
 <div class="posts">
