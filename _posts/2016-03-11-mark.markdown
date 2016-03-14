@@ -60,14 +60,6 @@ sdfdslkfjskdjf***sdjfldsj***fsdfdsds
 
 
 
-![Alt text](http://g.gravizo.com/g?
-@startuml;
-Object <|-- ArrayList;
-Object : equals%28%29;
-ArrayList : Object[] elementData;
-ArrayList : size%28%29;
-@enduml
-)
 
 
 ![Alt text](http://g.gravizo.com/g?
@@ -89,3 +81,16 @@ deactivate B;
 A --> User: Done;
 deactivate A;
 @enduml)
+
+---
+![Alt text](http://g.gravizo.com/g?
+@startuml;
+Object <|-- ArrayList;
+Object : equals%28%29;
+ArrayList : Object[] elementData;
+ArrayList : size%28%29;
+@enduml
+)
+
+---
+# why is not work.
