@@ -3,7 +3,7 @@ layout: default
 title: Welcome to Cat1
 ---
 
-<div>
+<div class="home" id="home">
  <h1 class="pageTitle">Recent Posts</h1>
   <ul class="posts noList">
     {% for post in paginator.posts %}
