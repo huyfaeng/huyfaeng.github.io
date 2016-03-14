@@ -17,7 +17,7 @@ navigation:
  - title: Cat1
    url:  /cat1.html
  - title: Cat2
-   url:  /cat2.html
+   url:  /cat2
  - title: Contact
    url: /contact
  - title: About
