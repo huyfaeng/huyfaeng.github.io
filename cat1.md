@@ -6,7 +6,7 @@ title: Welcome to Cat1
 <div class="home" id="home">
  <h1 class="pageTitle">Recent Posts</h1>
   <ul class="posts noList">
-    {% for post in paginator.posts %}
+    {% for post in site.posts %}
       {% if post.category == 'Cat1' %}
         <li>
           <span class="date">{{ post.date | date: '%B %d, %Y' }}</span>
