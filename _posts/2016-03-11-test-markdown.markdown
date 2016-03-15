@@ -2,7 +2,7 @@
 layout: post
 title:  just test markdown
 date:   2016-03-11
-categories: Cat1
+categories: Others
 ---
 # 欢迎使用 Cmd Markdown 编辑阅读器
 
