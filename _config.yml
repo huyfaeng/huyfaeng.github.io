@@ -20,7 +20,7 @@ navigation:
    url:  /Category/storage
  - title: Algorithm
    url:  /Category/algorithm
- - title: Others
+ - title: Miscellaneous
    url:  /Category/others
  - title: Contact
    url: /contact
