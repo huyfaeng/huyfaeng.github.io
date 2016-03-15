@@ -16,8 +16,12 @@ navigation:
    url: /index.html
  - title: MySql
    url:  /Category/mysql
- - title: Cat2
-   url:  /cat2
+ - title: Storage
+   url:  /Category/storage
+ - title: Algorithm
+   url:  /Category/algorithm
+ - title: Others
+   url:  /Category/others
  - title: Contact
    url: /contact
  - title: About
