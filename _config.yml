@@ -14,8 +14,8 @@ paginate: 5
 navigation:
  - title: Home
    url: /index.html
- - title: Cat1
-   url:  /cat1
+ - title: MySql
+   url:  /Category/mysql
  - title: Cat2
    url:  /cat2
  - title: Contact
