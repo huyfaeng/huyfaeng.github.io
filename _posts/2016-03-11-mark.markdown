@@ -2,7 +2,7 @@
 layout: post
 title:  just test markdown22
 date:   2016-03-11
-categories: Cat1
+categories: Storage
 ---
 
 ~~mistake...hhh~~
