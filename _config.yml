@@ -22,8 +22,6 @@ navigation:
    url:  /Category/algorithm
  - title: Miscellaneous
    url:  /Category/others
- - title: Contact
-   url: /contact
  - title: About
    url: /about
 
