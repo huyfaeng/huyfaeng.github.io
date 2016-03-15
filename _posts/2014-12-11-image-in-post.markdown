@@ -2,7 +2,7 @@
 layout: post
 title:  "Image in Post"
 date:   2014-12-11
-category: Cat2
+category: Others
 tag: tag2
 ---
 
