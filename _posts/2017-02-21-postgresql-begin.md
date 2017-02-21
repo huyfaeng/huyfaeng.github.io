@@ -31,20 +31,18 @@ tags: postgresql
     
 ## 三、用户表的基本信息存在哪里？
 用户表的基本信息保存在系统表里，涉及到的系统表很多，此处列举一些比较常用的。现创建了一个名为t4的用户表，表结构和索引如下：
-
 <img src="{{ '/assets/post_img/postgresql-begin/t4-define.png' | prepend: site.baseurl }}" alt=""> 
-
 后续的举例都基于这个表。
 
 ### 1. pg_database
 pg_database存储了各个数据库的信息，其中比较常用的字段有oid，datname（数据库名）， encoding(编码方式）等。
-
+<img src="{{ '/assets/post_img/postgresql-begin/pg_db.png' | prepend: site.baseurl }}" alt=""> 
 例如可以查看整个PG中有哪些数据库，oid是隐藏的列，可以直接通过select找出来。后面分析物理文件存储在哪里的时候需要用到这个系统表。关于这些字段的具体含义可参考 https://www.postgresql.org/docs/9.2/static/catalog-pg-database.html 
-
+<img src="{{ '/assets/post_img/postgresql-begin/pg_db_example.png' | prepend: site.baseurl }}" alt=""> 
 
 ### 2. pg_class
 pg_class存储了各个表、视图、和索引的信息。
-
+<img src="{{ '/assets/post_img/postgresql-begin/pg_class.png' | prepend: site.baseurl }}" alt=""> 
 常用的列有：
 - relname: 表名、视图名、索引名等;
 - relfilenode:  表或索引所在的oid；
@@ -55,11 +53,11 @@ pg_class存储了各个表、视图、和索引的信息。
 - relhashpkey：是否有主键, t表示true。
 其它字段的含义可参考官方文档：https://www.postgresql.org/docs/9.2/static/catalog-pg-class.html
 可以看下t4和它的索引在pg_class中的信息：
-
+<img src="{{ '/assets/post_img/postgresql-begin/pg_class_ex.png' | prepend: site.baseurl }}" alt=""> 
 
 ### 3. pg_attribute
-    存储了各个表或索引中各个列的信息。
-
+   存储了各个表或索引中各个列的信息。
+<img src="{{ '/assets/post_img/postgresql-begin/pg_attr.png' | prepend: site.baseurl }}" alt=""> 
 常用字段及其含义如下：
 - attrelid: 该列所属哪个表，同pg_class中的relfilenode;
 - attname: 列名；
@@ -68,13 +66,13 @@ pg_class存储了各个表、视图、和索引的信息。
 其它字段的信息可参考：https://www.postgresql.org/docs/9.2/static/catalog-pg-attribute.html
 
 可以看到t4表的各个字段的信息，一共有10列，6个隐藏列，这些隐藏列不一定会真正占用物理空间，比如cmin和cmax就是占用的同一块物理空间。
-
+<img src="{{ '/assets/post_img/postgresql-begin/pg_attr_ex1.png' | prepend: site.baseurl }}" alt=""> 
 下图是t4的一个组合索引的情况，该组合素有一共有两个列组成。attrelid表示对应索引的filenode。
-
+<img src="{{ '/assets/post_img/postgresql-begin/pg_attr_ex2.png' | prepend: site.baseurl }}" alt=""> 
 
 ### 4. pg_index
-    存储了索引相关的信息。
-
+   存储了索引相关的信息。
+<img src="{{ '/assets/post_img/postgresql-begin/pg_index.png' | prepend: site.baseurl }}" alt=""> 
 常用字段及其含义如下：
 - indexrelid: 索引的filenode；
 - indrelid: 该索引所属表的filenode；
@@ -84,13 +82,13 @@ pg_class存储了各个表、视图、和索引的信息。
 - indkey: 同pg_attribute中的attnum值，表示是表中的第几个字段。
 其它字段的具体含义参考：https://www.postgresql.org/docs/9.2/static/catalog-pg-index.html
 可以看下t4表的索引信息：
-
+<img src="{{ '/assets/post_img/postgresql-begin/pg_index_ex.png' | prepend: site.baseurl }}" alt=""> 
 
 ### 5. 统计视图
-    上面介绍的都是表，现在介绍一个统计相关的视图pg_stat_user_tables. PG中有很多监控统计的视图，具体可以参考https://www.postgresql.org/docs/9.2/static/monitoring-stats.html。
-
+   上面介绍的都是表，现在介绍一个统计相关的视图pg_stat_user_tables. PG中有很多监控统计的视图，具体可以参考https://www.postgresql.org/docs/9.2/static/monitoring-stats.html。
+<img src="{{ '/assets/post_img/postgresql-begin/pg_stat.png' | prepend: site.baseurl }}" alt=""> 
 该表主要包含了当前有多少行数据，增、删、改了多少行， vacuum相关的时间等。各个字段的含义比较好理解，看个例子：
-
+<img src="{{ '/assets/post_img/postgresql-begin/pg_stat_ex.png' | prepend: site.baseurl }}" alt=""> 
 
 ## 四、内核分析的相关函数
 pageinspect模块中的一些方法可以用来分析各种页中的内容，查看各种数据结构的取值等。要使用该模块时，需要先 CREATE EXTENSION  pageinspect;然后再使用。
