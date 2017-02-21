@@ -94,16 +94,14 @@ pg_class存储了各个表、视图、和索引的信息。
 pageinspect模块中的一些方法可以用来分析各种页中的内容，查看各种数据结构的取值等。要使用该模块时，需要先 CREATE EXTENSION  pageinspect;然后再使用。
 - get_raw_page（表名，页号）函数：返回每个页的内容，一般和下面的函数结合使用；
 - page_header 函数： 返回各个页中PageHeader结构体中的内容;
-- heap_page_items 函数：返回heap page中各行数据的信息；可看下图示例：
+- heap_page_items 函数：返回heap page中各行数据的信息；可看下图示例
 <img src="{{ '/assets/post_img/postgresql-begin/pg_header.png' | prepend: site.baseurl }}" alt=""> 
-
 - bt_metap（索引名） 函数： 查看索引页中meta page中的内容。关于索引名，如果是primary key，没有设置索引名的话，默认的名字为 表名_pkey；如：
 <img src="{{ '/assets/post_img/postgresql-begin/bt_meta.png' | prepend: site.baseurl }}" alt=""> 
 - bt_page_stats（索引名、页号） 函数： 查看索引页中的一些概要信息；如：
 <img src="{{ '/assets/post_img/postgresql-begin/bt_page_stat.png' | prepend: site.baseurl }}" alt=""> 
 - bt_page_items（索引名、页号） 函数：查看索引页中各个数据的信息；如：
 <img src="{{ '/assets/post_img/postgresql-begin/bt_page_items.png' | prepend: site.baseurl }}" alt=""> 
-
 - fsm_page_contents 函数： 查看fsm page页中各个字节的取值；
 关于这些函数的具体信息，可参考https://www.postgresql.org/docs/9.2/static/pageinspect.html 。
 此外， 查看fsm的信息，也可以通过freespacemap模块来查看(该模块需要额外安装)，使用前先 CREATE EXTENSION pg_freespacemap; 即可。如：
@@ -127,26 +125,20 @@ PG中数据文件存放的默认路径为/var/lib/pgsql/data， 可以通过post
 <img src="{{ '/assets/post_img/postgresql-begin/oid2name.png' | prepend: site.baseurl }}" alt=""> 
 
 ## 六、内核相关的资源整理
-Bruce monjian:  Postgres Internals Presentations
-[link](https://momjian.us/main/presentations/internals.html)
+- [Bruce monjian:  Postgres Internals Presentations](https://momjian.us/main/presentations/internals.html)
 
-A Tour of PostgreSQL Internals
-[link](https://www.postgresql.org/files/developer/tour.pdf)
+- [A Tour of PostgreSQL Internals](https://www.postgresql.org/files/developer/tour.pdf)
 
-Following a Select Statement Through Postgres Internals
-[link](http://patshaughnessy.net/2014/10/13/following-a-select-statement-through-postgres-internals)
 
-[link](http://patshaughnessy.net/2014/11/11/discovering-the-computer-science-behind-postgres-indexes)
+- Following a Select Statement Through Postgres Internals
+[引用 1](http://patshaughnessy.net/2014/10/13/following-a-select-statement-through-postgres-internals)
+[引用 2](http://patshaughnessy.net/2014/11/11/discovering-the-computer-science-behind-postgres-indexes)
 
-Introduction to PostgreSQL physical storage
-[link](http://rachbelaid.com/introduction-to-postgres-physical-storage/)
+- [Introduction to PostgreSQL physical storage](http://rachbelaid.com/introduction-to-postgres-physical-storage/)
 
-New Free Space Map and  Visibility Map 
-[link](https://wiki.postgresql.org/images/8/81/FSM_and_Visibility_Map.pdf)
+- [New Free Space Map and  Visibility Map ](https://wiki.postgresql.org/images/8/81/FSM_and_Visibility_Map.pdf)
 
-PGConf2016: Index Internals (PConf EU,US,硅谷, 下文是Russia开的,heikki)
-[link](https://www.pgcon.org/2016/schedule/attachments/434_Index-internals-PGCon2016.pdf)
-
+- [PGConf2016: Index Internals (PConf EU,US,硅谷, 下文是Russia开的,heikki)](https://www.pgcon.org/2016/schedule/attachments/434_Index-internals-PGCon2016.pdf)
 
 ## 最后
 本文介绍了一些内核分析会涉及到的系统表、函数等，为后续分析PG内核做些准备，下一步将会分析PG存储中涉及到的数据结构。
