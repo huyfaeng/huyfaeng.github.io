@@ -9,38 +9,38 @@ tags: postgresql
 
 近期分析PostgreSql 9.2 (PG)的内核， 记录一些常用的系统命令、系统表和一些函数工具等方便后续分析，工欲善其事，必先利其器。
 
-一、常用的基本命令
+## 一、常用的基本命令
 登入PG：  psql -U pguser  -d testdb -h ip地址 -p 5432
 常用命令：
-\?： 会列出所有命令；
-\l： 显示所有的数据库；
-\c 数据库名:  连接某个数据库；
-\dt 表名(可含通配符)： 列出所有满足条件的表信息；
-\di 索引名(可含通配符)： 列出所有满足条件的索引信息；
-\d+ 表名或索引名(可含通配符)： 显示表或索引的定义；
-\q： 退出；
+- \?： 会列出所有命令；
+- \l： 显示所有的数据库；
+- \c 数据库名:  连接某个数据库；
+- \dt 表名(可含通配符)： 列出所有满足条件的表信息；
+- \di 索引名(可含通配符)： 列出所有满足条件的索引信息；
+- \d+ 表名或索引名(可含通配符)： 显示表或索引的定义；
+- \q： 退出；
 
-二、常用的术语
-tuple: 元祖，等同于行；
-releation: 等同于表；
-filenode: 是个id，标识了唯一的一个表或索引；
-block/page: 块/页，默认为8K大小，数据是分块存储的；
-heap/heap page:存放用户数据的文件，包含了多个页，不同于操作系统里heap；
-ctid: 标识一个位置信息，包含了页号和页内偏移等信息；
-oid:  object identifier， 对象标识符；
+## 二、常用的术语
+- tuple: 元祖，等同于行；
+- releation: 等同于表；
+- filenode: 是个id，标识了唯一的一个表或索引；
+- block/page: 块/页，默认为8K大小，数据是分块存储的；
+- heap/heap page:存放用户数据的文件，包含了多个页，不同于操作系统里heap；
+- ctid: 标识一个位置信息，包含了页号和页内偏移等信息；
+- oid:  object identifier， 对象标识符；
     
-三、用户表的基本信息存在哪里？
+## 三、用户表的基本信息存在哪里？
     用户表的基本信息保存在系统表里，涉及到的系统表很多，此处列举一些比较常用的。现创建了一个名为t4的用户表，表结构和索引如下：
-
+<img src="{{ '/assets/img/touring.jpg' | prepend: site.baseurl }}" alt=""> 
 后续的举例都基于这个表。
 
-1. pg_database
+### 1. pg_database
 pg_database存储了各个数据库的信息，其中比较常用的字段有oid，datname（数据库名）， encoding(编码方式）等。
 
 例如可以查看整个PG中有哪些数据库，oid是隐藏的列，可以直接通过select找出来。后面分析物理文件存储在哪里的时候需要用到这个系统表。关于这些字段的具体含义可参考 https://www.postgresql.org/docs/9.2/static/catalog-pg-database.html 
 
 
-2. pg_class
+### 2. pg_class
 pg_class存储了各个表、视图、和索引的信息。
 
 常用的列有：
@@ -55,7 +55,7 @@ relhashpkey：是否有主键, t表示true。
 可以看下t4和它的索引在pg_class中的信息：
 
 
-3. pg_attribute
+### 3. pg_attribute
     存储了各个表或索引中各个列的信息。
 
 常用字段及其含义如下：
@@ -70,7 +70,7 @@ attnum: 该列在表中的顺序，如果是系统添加的隐藏列，用负数
 下图是t4的一个组合索引的情况，该组合素有一共有两个列组成。attrelid表示对应索引的filenode。
 
 
-4. pg_index
+### 4. pg_index
     存储了索引相关的信息。
 
 常用字段及其含义如下：
@@ -84,32 +84,32 @@ indkey: 同pg_attribute中的attnum值，表示是表中的第几个字段。
 可以看下t4表的索引信息：
 
 
-5. 统计视图
+### 5. 统计视图
     上面介绍的都是表，现在介绍一个统计相关的视图pg_stat_user_tables. PG中有很多监控统计的视图，具体可以参考https://www.postgresql.org/docs/9.2/static/monitoring-stats.html。
 
 该表主要包含了当前有多少行数据，增、删、改了多少行， vacuum相关的时间等。各个字段的含义比较好理解，看个例子：
 
 
-四、内核分析的相关函数
+## 四、内核分析的相关函数
 pageinspect模块中的一些方法可以用来分析各种页中的内容，查看各种数据结构的取值等。要使用该模块时，需要先 CREATE EXTENSION  pageinspect;然后再使用。
-get_raw_page（表名，页号）函数：返回每个页的内容，一般和下面的函数结合使用；
-page_header 函数： 返回各个页中PageHeader结构体中的内容;
-heap_page_items 函数：返回heap page中各行数据的信息；可看下图示例：
+- get_raw_page（表名，页号）函数：返回每个页的内容，一般和下面的函数结合使用；
+- page_header 函数： 返回各个页中PageHeader结构体中的内容;
+- heap_page_items 函数：返回heap page中各行数据的信息；可看下图示例：
 
 
-bt_metap（索引名） 函数： 查看索引页中meta page中的内容。关于索引名，如果是primary key，没有设置索引名的话，默认的名字为 表名_pkey；如：
+- bt_metap（索引名） 函数： 查看索引页中meta page中的内容。关于索引名，如果是primary key，没有设置索引名的话，默认的名字为 表名_pkey；如：
 
-bt_page_stats（索引名、页号） 函数： 查看索引页中的一些概要信息；如：
+- bt_page_stats（索引名、页号） 函数： 查看索引页中的一些概要信息；如：
 
-bt_page_items（索引名、页号） 函数：查看索引页中各个数据的信息；如：
+- bt_page_items（索引名、页号） 函数：查看索引页中各个数据的信息；如：
 
 
-fsm_page_contents 函数： 查看fsm page页中各个字节的取值；
+- fsm_page_contents 函数： 查看fsm page页中各个字节的取值；
 关于这些函数的具体信息，可参考https://www.postgresql.org/docs/9.2/static/pageinspect.html 。
 此外， 查看fsm的信息，也可以通过freespacemap模块来查看(该模块需要额外安装)，使用前先 CREATE EXTENSION pg_freespacemap; 即可。如：
 
 
-五、用户数据存在哪里？
+## 五、用户数据存在哪里？
 PG中数据文件存放的默认路径为/var/lib/pgsql/data， 可以通过postgresql.conf来配置。该目录下面包含以下文件和目录。其中：
 
 base: 包含了每个数据库的数据；
@@ -126,7 +126,7 @@ postgresql.con： 包含了PG的配置。
 由于通过pg_database和pg_class 去查数据库、表对应的oid不是很方便，因此PG又提供了一个命令oid2name, 用于将oid转成名字，如下图所示。
 
 
-六、内核相关的资源整理
+## 六、内核相关的资源整理
 Bruce monjian:  Postgres Internals Presentations
 https://momjian.us/main/presentations/internals.html
 
