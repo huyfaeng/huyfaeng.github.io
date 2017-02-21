@@ -51,6 +51,7 @@ pg_class存储了各个表、视图、和索引的信息。
 - relnatts:表有多少列（不包含系统添加的隐藏列）；
 - relkind:表的类型，r表示普通的表， i表示是索引，v表示是视图，t表示是toast表；
 - relhashpkey：是否有主键, t表示true。
+
 其它字段的含义可参考官方文档：https://www.postgresql.org/docs/9.2/static/catalog-pg-class.html
 可以看下t4和它的索引在pg_class中的信息：
 <img src="{{ '/assets/post_img/postgresql-begin/pg_class_ex.png' | prepend: site.baseurl }}" alt=""> 
@@ -80,6 +81,7 @@ pg_class存储了各个表、视图、和索引的信息。
 - indisunique: 该索引是否为唯一索引；
 - indisprimary: 该索引是否为主索引；
 - indkey: 同pg_attribute中的attnum值，表示是表中的第几个字段。
+
 其它字段的具体含义参考：https://www.postgresql.org/docs/9.2/static/catalog-pg-index.html
 可以看下t4表的索引信息：
 <img src="{{ '/assets/post_img/postgresql-begin/pg_index_ex.png' | prepend: site.baseurl }}" alt=""> 
@@ -103,6 +105,7 @@ pageinspect模块中的一些方法可以用来分析各种页中的内容，查
 - bt_page_items（索引名、页号） 函数：查看索引页中各个数据的信息；如：
 <img src="{{ '/assets/post_img/postgresql-begin/bt_page_items.png' | prepend: site.baseurl }}" alt=""> 
 - fsm_page_contents 函数： 查看fsm page页中各个字节的取值；
+
 关于这些函数的具体信息，可参考https://www.postgresql.org/docs/9.2/static/pageinspect.html 。
 此外， 查看fsm的信息，也可以通过freespacemap模块来查看(该模块需要额外安装)，使用前先 CREATE EXTENSION pg_freespacemap; 即可。如：
 <img src="{{ '/assets/post_img/postgresql-begin/fsm.png' | prepend: site.baseurl }}" alt=""> 
@@ -120,24 +123,20 @@ PG中数据文件存放的默认路径为/var/lib/pgsql/data， 可以通过post
 其它文件和目录的含义见 https://www.postgresql.org/docs/9.2/static/storage-file-layout.html。
 
 用户数据存储在base目录下，base目录下包含了多个名字为数字的目录。这些数字表示的是数据库的oid，可以通过pg_database来查看分别对应的是哪个数据库。进入到某个数据库后，就是该库所有的表文件，这些文件名也都是数字，通过pg_class的filenode可以知道各个数字对应的是哪个表、哪个索引等。如下示意图是表t4所对应的数据文件，每个表除了表本身有个文件外，还有一个fsm和vm文件与之对应。索引文件没有fsm和vm，关于fsm和vm文件后续再介绍。
+
 <img src="{{ '/assets/post_img/postgresql-begin/oid_storage.png' | prepend: site.baseurl }}" alt=""> 
+
 由于通过pg_database和pg_class 去查数据库、表对应的oid不是很方便，因此PG又提供了一个命令oid2name, 用于将oid转成名字，如下图所示。
 <img src="{{ '/assets/post_img/postgresql-begin/oid2name.png' | prepend: site.baseurl }}" alt=""> 
 
 ## 六、内核相关的资源整理
 - [Bruce monjian:  Postgres Internals Presentations](https://momjian.us/main/presentations/internals.html)
-
 - [A Tour of PostgreSQL Internals](https://www.postgresql.org/files/developer/tour.pdf)
-
-
 - Following a Select Statement Through Postgres Internals
 [引用 1](http://patshaughnessy.net/2014/10/13/following-a-select-statement-through-postgres-internals)
 [引用 2](http://patshaughnessy.net/2014/11/11/discovering-the-computer-science-behind-postgres-indexes)
-
 - [Introduction to PostgreSQL physical storage](http://rachbelaid.com/introduction-to-postgres-physical-storage/)
-
 - [New Free Space Map and  Visibility Map ](https://wiki.postgresql.org/images/8/81/FSM_and_Visibility_Map.pdf)
-
 - [PGConf2016: Index Internals (PConf EU,US,硅谷, 下文是Russia开的,heikki)](https://www.pgcon.org/2016/schedule/attachments/434_Index-internals-PGCon2016.pdf)
 
 ## 最后
