@@ -2,7 +2,7 @@
 layout: post
 title: just test markdown22
 date: 2017-02-12
-category: Storage
+category: Others
 tags: tag1
 ---
 
