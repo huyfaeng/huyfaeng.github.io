@@ -11,6 +11,7 @@ tags: postgresql
 
 ## 一、常用的基本命令
 登入PG：  psql -U pguser  -d testdb -h ip地址 -p 5432
+
 常用命令：
 - \?： 会列出所有命令；
 - \l： 显示所有的数据库；
@@ -37,12 +38,13 @@ tags: postgresql
 ### 1. pg_database
 pg_database存储了各个数据库的信息，其中比较常用的字段有oid，datname（数据库名）， encoding(编码方式）等。
 <img src="{{ '/assets/post_img/postgresql-begin/pg_db.png' | prepend: site.baseurl }}" alt=""> 
-例如可以查看整个PG中有哪些数据库，oid是隐藏的列，可以直接通过select找出来。后面分析物理文件存储在哪里的时候需要用到这个系统表。关于这些字段的具体含义可参考 https://www.postgresql.org/docs/9.2/static/catalog-pg-database.html 
+例如可以查看整个PG中有哪些数据库，oid是隐藏的列，可以直接通过select找出来。后面分析物理文件存储在哪里的时候需要用到这个系统表。关于这些字段的具体含义可参考[官网](https://www.postgresql.org/docs/9.2/static/catalog-pg-database.html)
 <img src="{{ '/assets/post_img/postgresql-begin/pg_db_example.png' | prepend: site.baseurl }}" alt=""> 
 
 ### 2. pg_class
 pg_class存储了各个表、视图、和索引的信息。
 <img src="{{ '/assets/post_img/postgresql-begin/pg_class.png' | prepend: site.baseurl }}" alt=""> 
+
 常用的列有：
 - relname: 表名、视图名、索引名等;
 - relfilenode:  表或索引所在的oid；
@@ -52,7 +54,7 @@ pg_class存储了各个表、视图、和索引的信息。
 - relkind:表的类型，r表示普通的表， i表示是索引，v表示是视图，t表示是toast表；
 - relhashpkey：是否有主键, t表示true。
 
-其它字段的含义可参考官方文档：https://www.postgresql.org/docs/9.2/static/catalog-pg-class.html
+其它字段的含义可参考[官方文档](https://www.postgresql.org/docs/9.2/static/catalog-pg-class.html)
 可以看下t4和它的索引在pg_class中的信息：
 <img src="{{ '/assets/post_img/postgresql-begin/pg_class_ex.png' | prepend: site.baseurl }}" alt=""> 
 
@@ -64,7 +66,7 @@ pg_class存储了各个表、视图、和索引的信息。
 - attname: 列名；
 - attlen：该列占用的长度，如果是定长的话，会有一个正整数的值，如果是varchar等变长的，用-1表示；
 - attnum: 该列在表中的顺序，如果是系统添加的隐藏列，用负数表示。
-其它字段的信息可参考：https://www.postgresql.org/docs/9.2/static/catalog-pg-attribute.html
+其它字段的信息可参考[官网](https://www.postgresql.org/docs/9.2/static/catalog-pg-attribute.html)
 
 可以看到t4表的各个字段的信息，一共有10列，6个隐藏列，这些隐藏列不一定会真正占用物理空间，比如cmin和cmax就是占用的同一块物理空间。
 <img src="{{ '/assets/post_img/postgresql-begin/pg_attr_ex1.png' | prepend: site.baseurl }}" alt=""> 
@@ -82,12 +84,12 @@ pg_class存储了各个表、视图、和索引的信息。
 - indisprimary: 该索引是否为主索引；
 - indkey: 同pg_attribute中的attnum值，表示是表中的第几个字段。
 
-其它字段的具体含义参考：https://www.postgresql.org/docs/9.2/static/catalog-pg-index.html
+其它字段的具体含义参考[官网](https://www.postgresql.org/docs/9.2/static/catalog-pg-index.html)
 可以看下t4表的索引信息：
 <img src="{{ '/assets/post_img/postgresql-begin/pg_index_ex.png' | prepend: site.baseurl }}" alt=""> 
 
 ### 5. 统计视图
-   上面介绍的都是表，现在介绍一个统计相关的视图pg_stat_user_tables. PG中有很多监控统计的视图，具体可以参考https://www.postgresql.org/docs/9.2/static/monitoring-stats.html。
+   上面介绍的都是表，现在介绍一个统计相关的视图pg_stat_user_tables. PG中有很多监控统计的视图，具体可以参考[官网](https://www.postgresql.org/docs/9.2/static/monitoring-stats.html)。
 <img src="{{ '/assets/post_img/postgresql-begin/pg_stat.png' | prepend: site.baseurl }}" alt=""> 
 该表主要包含了当前有多少行数据，增、删、改了多少行， vacuum相关的时间等。各个字段的含义比较好理解，看个例子：
 <img src="{{ '/assets/post_img/postgresql-begin/pg_stat_ex.png' | prepend: site.baseurl }}" alt=""> 
@@ -106,12 +108,13 @@ pageinspect模块中的一些方法可以用来分析各种页中的内容，查
 <img src="{{ '/assets/post_img/postgresql-begin/bt_page_items.png' | prepend: site.baseurl }}" alt=""> 
 - fsm_page_contents 函数： 查看fsm page页中各个字节的取值；
 
-关于这些函数的具体信息，可参考https://www.postgresql.org/docs/9.2/static/pageinspect.html 。
+关于这些函数的具体信息，可参考[官网](https://www.postgresql.org/docs/9.2/static/pageinspect.html) 。
 此外， 查看fsm的信息，也可以通过freespacemap模块来查看(该模块需要额外安装)，使用前先 CREATE EXTENSION pg_freespacemap; 即可。如：
 <img src="{{ '/assets/post_img/postgresql-begin/fsm.png' | prepend: site.baseurl }}" alt=""> 
 
 ## 五、用户数据存在哪里？
 PG中数据文件存放的默认路径为/var/lib/pgsql/data， 可以通过postgresql.conf来配置。该目录下面包含以下文件和目录。其中：
+
 <img src="{{ '/assets/post_img/postgresql-begin/storage_dir.png' | prepend: site.baseurl }}" alt=""> 
 - base: 包含了每个数据库的数据；
 - global：包含了集群范围的表的数据；
@@ -120,7 +123,7 @@ PG中数据文件存放的默认路径为/var/lib/pgsql/data， 可以通过post
 - pg_log: 数据库运行日志，和pg_clog, pg_xlog完全没关系；
 - pg_subtrans： 包含了子事务的状态数据；
 - postgresql.con： 包含了PG的配置。
-其它文件和目录的含义见 https://www.postgresql.org/docs/9.2/static/storage-file-layout.html。
+其它文件和目录的含义见[官网]( https://www.postgresql.org/docs/9.2/static/storage-file-layout.html)。
 
 用户数据存储在base目录下，base目录下包含了多个名字为数字的目录。这些数字表示的是数据库的oid，可以通过pg_database来查看分别对应的是哪个数据库。进入到某个数据库后，就是该库所有的表文件，这些文件名也都是数字，通过pg_class的filenode可以知道各个数字对应的是哪个表、哪个索引等。如下示意图是表t4所对应的数据文件，每个表除了表本身有个文件外，还有一个fsm和vm文件与之对应。索引文件没有fsm和vm，关于fsm和vm文件后续再介绍。
 
