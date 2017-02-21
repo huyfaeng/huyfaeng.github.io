@@ -30,8 +30,10 @@ tags: postgresql
 - oid:  object identifier， 对象标识符；
     
 ## 三、用户表的基本信息存在哪里？
-    用户表的基本信息保存在系统表里，涉及到的系统表很多，此处列举一些比较常用的。现创建了一个名为t4的用户表，表结构和索引如下：
-<img src="{{ '/assets/img/touring.jpg' | prepend: site.baseurl }}" alt=""> 
+用户表的基本信息保存在系统表里，涉及到的系统表很多，此处列举一些比较常用的。现创建了一个名为t4的用户表，表结构和索引如下：
+
+<img src="{{ '/assets/post_img/postgresql-begin/t4-define.png' | prepend: site.baseurl }}" alt=""> 
+
 后续的举例都基于这个表。
 
 ### 1. pg_database
