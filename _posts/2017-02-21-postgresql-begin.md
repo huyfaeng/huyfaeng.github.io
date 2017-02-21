@@ -128,24 +128,24 @@ PG中数据文件存放的默认路径为/var/lib/pgsql/data， 可以通过post
 
 ## 六、内核相关的资源整理
 Bruce monjian:  Postgres Internals Presentations
-https://momjian.us/main/presentations/internals.html
+[link](https://momjian.us/main/presentations/internals.html)
 
 A Tour of PostgreSQL Internals
-https://www.postgresql.org/files/developer/tour.pdf
+[link](https://www.postgresql.org/files/developer/tour.pdf)
 
 Following a Select Statement Through Postgres Internals
-http://patshaughnessy.net/2014/10/13/following-a-select-statement-through-postgres-internals
+[link](http://patshaughnessy.net/2014/10/13/following-a-select-statement-through-postgres-internals)
 
-http://patshaughnessy.net/2014/11/11/discovering-the-computer-science-behind-postgres-indexes
+[link](http://patshaughnessy.net/2014/11/11/discovering-the-computer-science-behind-postgres-indexes)
 
 Introduction to PostgreSQL physical storage
-http://rachbelaid.com/introduction-to-postgres-physical-storage/
+[link](http://rachbelaid.com/introduction-to-postgres-physical-storage/)
 
 New Free Space Map and  Visibility Map 
-https://wiki.postgresql.org/images/8/81/FSM_and_Visibility_Map.pdf
+[link](https://wiki.postgresql.org/images/8/81/FSM_and_Visibility_Map.pdf)
 
 PGConf2016: Index Internals (PConf EU,US,硅谷, 下文是Russia开的,heikki)
-https://www.pgcon.org/2016/schedule/attachments/434_Index-internals-PGCon2016.pdf
+[link](https://www.pgcon.org/2016/schedule/attachments/434_Index-internals-PGCon2016.pdf)
 
 
 ## 最后
