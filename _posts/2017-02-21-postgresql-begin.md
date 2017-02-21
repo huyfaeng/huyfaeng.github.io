@@ -95,23 +95,23 @@ pageinspect模块中的一些方法可以用来分析各种页中的内容，查
 - get_raw_page（表名，页号）函数：返回每个页的内容，一般和下面的函数结合使用；
 - page_header 函数： 返回各个页中PageHeader结构体中的内容;
 - heap_page_items 函数：返回heap page中各行数据的信息；可看下图示例：
-
+<img src="{{ '/assets/post_img/postgresql-begin/pg_header.png' | prepend: site.baseurl }}" alt=""> 
 
 - bt_metap（索引名） 函数： 查看索引页中meta page中的内容。关于索引名，如果是primary key，没有设置索引名的话，默认的名字为 表名_pkey；如：
-
+<img src="{{ '/assets/post_img/postgresql-begin/bt_meta.png' | prepend: site.baseurl }}" alt=""> 
 - bt_page_stats（索引名、页号） 函数： 查看索引页中的一些概要信息；如：
-
+<img src="{{ '/assets/post_img/postgresql-begin/bt_page_stat.png' | prepend: site.baseurl }}" alt=""> 
 - bt_page_items（索引名、页号） 函数：查看索引页中各个数据的信息；如：
-
+<img src="{{ '/assets/post_img/postgresql-begin/bt_page_items.png' | prepend: site.baseurl }}" alt=""> 
 
 - fsm_page_contents 函数： 查看fsm page页中各个字节的取值；
 关于这些函数的具体信息，可参考https://www.postgresql.org/docs/9.2/static/pageinspect.html 。
 此外， 查看fsm的信息，也可以通过freespacemap模块来查看(该模块需要额外安装)，使用前先 CREATE EXTENSION pg_freespacemap; 即可。如：
-
+<img src="{{ '/assets/post_img/postgresql-begin/fsm.png' | prepend: site.baseurl }}" alt=""> 
 
 ## 五、用户数据存在哪里？
 PG中数据文件存放的默认路径为/var/lib/pgsql/data， 可以通过postgresql.conf来配置。该目录下面包含以下文件和目录。其中：
-
+<img src="{{ '/assets/post_img/postgresql-begin/storage_dir.png' | prepend: site.baseurl }}" alt=""> 
 - base: 包含了每个数据库的数据；
 - global：包含了集群范围的表的数据；
 - pg_clog: 事务提交的状态数据；
@@ -122,9 +122,9 @@ PG中数据文件存放的默认路径为/var/lib/pgsql/data， 可以通过post
 其它文件和目录的含义见 https://www.postgresql.org/docs/9.2/static/storage-file-layout.html。
 
 用户数据存储在base目录下，base目录下包含了多个名字为数字的目录。这些数字表示的是数据库的oid，可以通过pg_database来查看分别对应的是哪个数据库。进入到某个数据库后，就是该库所有的表文件，这些文件名也都是数字，通过pg_class的filenode可以知道各个数字对应的是哪个表、哪个索引等。如下示意图是表t4所对应的数据文件，每个表除了表本身有个文件外，还有一个fsm和vm文件与之对应。索引文件没有fsm和vm，关于fsm和vm文件后续再介绍。
-
+<img src="{{ '/assets/post_img/postgresql-begin/oid_storage.png' | prepend: site.baseurl }}" alt=""> 
 由于通过pg_database和pg_class 去查数据库、表对应的oid不是很方便，因此PG又提供了一个命令oid2name, 用于将oid转成名字，如下图所示。
-
+<img src="{{ '/assets/post_img/postgresql-begin/oid2name.png' | prepend: site.baseurl }}" alt=""> 
 
 ## 六、内核相关的资源整理
 Bruce monjian:  Postgres Internals Presentations
