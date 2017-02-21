@@ -44,13 +44,13 @@ pg_database存储了各个数据库的信息，其中比较常用的字段有oid
 pg_class存储了各个表、视图、和索引的信息。
 
 常用的列有：
-relname: 表名、视图名、索引名等;
-relfilenode:  表或索引所在的oid；
-relpages:已分配了多少物理页，该值不是确切值；
-reltupes: 当前有多少行数据，该值也不是确切值；
-relnatts:表有多少列（不包含系统添加的隐藏列）；
-relkind:表的类型，r表示普通的表， i表示是索引，v表示是视图，t表示是toast表；
-relhashpkey：是否有主键, t表示true。
+- relname: 表名、视图名、索引名等;
+- relfilenode:  表或索引所在的oid；
+- relpages:已分配了多少物理页，该值不是确切值；
+- reltupes: 当前有多少行数据，该值也不是确切值；
+- relnatts:表有多少列（不包含系统添加的隐藏列）；
+- relkind:表的类型，r表示普通的表， i表示是索引，v表示是视图，t表示是toast表；
+- relhashpkey：是否有主键, t表示true。
 其它字段的含义可参考官方文档：https://www.postgresql.org/docs/9.2/static/catalog-pg-class.html
 可以看下t4和它的索引在pg_class中的信息：
 
@@ -59,10 +59,10 @@ relhashpkey：是否有主键, t表示true。
     存储了各个表或索引中各个列的信息。
 
 常用字段及其含义如下：
-attrelid: 该列所属哪个表，同pg_class中的relfilenode;
-attname: 列名；
-attlen：该列占用的长度，如果是定长的话，会有一个正整数的值，如果是varchar等变长的，用-1表示；
-attnum: 该列在表中的顺序，如果是系统添加的隐藏列，用负数表示。
+- attrelid: 该列所属哪个表，同pg_class中的relfilenode;
+- attname: 列名；
+- attlen：该列占用的长度，如果是定长的话，会有一个正整数的值，如果是varchar等变长的，用-1表示；
+- attnum: 该列在表中的顺序，如果是系统添加的隐藏列，用负数表示。
 其它字段的信息可参考：https://www.postgresql.org/docs/9.2/static/catalog-pg-attribute.html
 
 可以看到t4表的各个字段的信息，一共有10列，6个隐藏列，这些隐藏列不一定会真正占用物理空间，比如cmin和cmax就是占用的同一块物理空间。
@@ -74,12 +74,12 @@ attnum: 该列在表中的顺序，如果是系统添加的隐藏列，用负数
     存储了索引相关的信息。
 
 常用字段及其含义如下：
-indexrelid: 索引的filenode；
-indrelid: 该索引所属表的filenode；
-indnatts: 该索引包含了多少列；
-indisunique: 该索引是否为唯一索引；
-indisprimary: 该索引是否为主索引；
-indkey: 同pg_attribute中的attnum值，表示是表中的第几个字段。
+- indexrelid: 索引的filenode；
+- indrelid: 该索引所属表的filenode；
+- indnatts: 该索引包含了多少列；
+- indisunique: 该索引是否为唯一索引；
+- indisprimary: 该索引是否为主索引；
+- indkey: 同pg_attribute中的attnum值，表示是表中的第几个字段。
 其它字段的具体含义参考：https://www.postgresql.org/docs/9.2/static/catalog-pg-index.html
 可以看下t4表的索引信息：
 
@@ -112,13 +112,13 @@ pageinspect模块中的一些方法可以用来分析各种页中的内容，查
 ## 五、用户数据存在哪里？
 PG中数据文件存放的默认路径为/var/lib/pgsql/data， 可以通过postgresql.conf来配置。该目录下面包含以下文件和目录。其中：
 
-base: 包含了每个数据库的数据；
-global：包含了集群范围的表的数据；
-pg_clog: 事务提交的状态数据；
-pg_xlog: WAL（write ahead log），用户增、删、改前都需要记录日志，这部分日志就存储在这个目录里；
-pg_log: 数据库运行日志，和pg_clog, pg_xlog完全没关系；
-pg_subtrans： 包含了子事务的状态数据；
-postgresql.con： 包含了PG的配置。
+- base: 包含了每个数据库的数据；
+- global：包含了集群范围的表的数据；
+- pg_clog: 事务提交的状态数据；
+- pg_xlog: WAL（write ahead log），用户增、删、改前都需要记录日志，这部分日志就存储在这个目录里；
+- pg_log: 数据库运行日志，和pg_clog, pg_xlog完全没关系；
+- pg_subtrans： 包含了子事务的状态数据；
+- postgresql.con： 包含了PG的配置。
 其它文件和目录的含义见 https://www.postgresql.org/docs/9.2/static/storage-file-layout.html。
 
 用户数据存储在base目录下，base目录下包含了多个名字为数字的目录。这些数字表示的是数据库的oid，可以通过pg_database来查看分别对应的是哪个数据库。进入到某个数据库后，就是该库所有的表文件，这些文件名也都是数字，通过pg_class的filenode可以知道各个数字对应的是哪个表、哪个索引等。如下示意图是表t4所对应的数据文件，每个表除了表本身有个文件外，还有一个fsm和vm文件与之对应。索引文件没有fsm和vm，关于fsm和vm文件后续再介绍。
@@ -148,5 +148,5 @@ PGConf2016: Index Internals (PConf EU,US,硅谷, 下文是Russia开的,heikki)
 https://www.pgcon.org/2016/schedule/attachments/434_Index-internals-PGCon2016.pdf
 
 
-最后
+## 最后
 本文介绍了一些内核分析会涉及到的系统表、函数等，为后续分析PG内核做些准备，下一步将会分析PG存储中涉及到的数据结构。
